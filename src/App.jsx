@@ -15,7 +15,7 @@ function App() { // App 컴포넌트는 사용자 선택에 따라 UserDetail에
 
   return (
     <div className={styles.App}>
-      <h1 className={styles.title}>User Management</h1>
+      <h1 className={styles.title}>Video Management</h1>
       <List onUserClick={handleUserClick} /> {/* UserList에서 onUserClick 이벤트가 발생하면 handleUserClick 호출 */}
       {!window.confirmNavigation && selectedUserId && <Detail userId={selectedUserId} />} {/* 선택된 사용자 ID를 UserDetail 컴포넌트에 전달 */}
     </div>

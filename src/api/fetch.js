@@ -3,7 +3,7 @@
 
 // BASE_URL, DEFAULT_TIMEOUT 및 DEFAULT_HEADERS는 customFetch 함수의 기본 동작을 구성하는 데 사용되는 상수입니다.
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com'; // 모든 API 요청의 기본 URL
+const BASE_URL = 'http://localhost:3001'; // 모든 API 요청의 기본 URL
 const DEFAULT_TIMEOUT = 5000; // 요청의 기본 타임아웃 시간(밀리초) 타임아웃은 기다리는 시간을 의미하며 시간이 지나면 실패로 인지
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json', // 모든 요청의 기본 헤더

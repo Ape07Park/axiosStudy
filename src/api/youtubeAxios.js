@@ -11,6 +11,7 @@ export const axiosInstance = axios.create({
 /**
  * 인터셉터는 중간에서 가로채는 역할 수행
  */
+
 // 요청 인터셉터
 axiosInstance.interceptors.request.use(
     config => {
