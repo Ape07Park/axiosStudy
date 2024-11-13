@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../api/youtubeAxios";
 import styles from '../css/UserList.module.css'; // css 폴더 내의 CSS 모듈 import
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 react-router-dom 사용
-import CustomPagination from "./CustomPagination";
+import CustomPagination from "../components/CustomPagination";
+import SearchBar from "../components/SearchBar";
 
 function List({ onUserClick }) {
     const [datas, setDatas] = useState([]); // 사용자 상태 정의: 사용자 리스트 저장
     const [showModal, setShowModal] = useState(false); // 모달 상태 정의
     const [selectedUserId, setSelectedUserId] = useState(null); // 선택된 사용자 ID 상태 정의
-    const navigate = useNavigate(); // useHistory 훅 사용
+    const navigate = useNavigate();
 
     // 현재 페이지 상태 정의
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +20,7 @@ function List({ onUserClick }) {
         axiosInstance.get('/db')
             .then(response => {
                 console.log("API Response:", response); // 응답을 콘솔에 출력
-                setDatas(response.data.db[0].items || []); // 빈 배열로 초기화하여 데이터가 없는 경우에도 안전하게 처리
+                setDatas(response.data.db[0].items || []); // 데이터가 없으면 빈 배열로 초기화
             })
             .catch(error => console.error("Error fetching users:", error));
     }, []); // axios.get()이 성공하면 response.data가 users 상태에 저장됩니다.
@@ -42,16 +43,20 @@ function List({ onUserClick }) {
     };
 
     // 페이징
+    // pageNumber를 넣어 현재 페이지로 만듦
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem);
+    const indexOfLastItem = currentPage * itemsPerPage; // 현재 페이지의 마지막 아이템: 현재 페이지 * 페이지 당 아이템 ex) 2 페이지 10번 아이템
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // 현재 페이지의 첫 번째 아이템: 현재 페이지의 마지막 아이템 - 페이지 당 아이템 ex) 2페이지 6번 아이템
+    const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem); // 현재 페이지의 아이템들: 현재 페이지의 첫 아이템 ~ 현재 페이지의 마지막 아이템
 
+
+    // TODO 검색값을 넣을 함수 만들어 넣기
     return (
         <div className={styles.container}>
+            {/* <SearchBar datas/> */}
 
             <h2 className={styles.title}>Video List</h2>
             <ul className={styles.list}>

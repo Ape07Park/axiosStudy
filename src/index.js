@@ -3,11 +3,33 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import NotFound from './pages/NotFound';
+import List from './pages/List';
+import Main from './pages/Main';
+import Detail from './pages/Main';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// 라우트 설정
+const router = createBrowserRouter([
+  { path: '/',
+  element: <App/>,
+  errorElement: <NotFound/>,
+  // index: true는 / 경로에 접근했을 때 <MainPage />를 렌더링하도록 설정
+
+  children : [
+    { index: true, element: <Main /> },
+    {path:'list', element:<List/> },
+    {path: 'detail', element:<Detail/>}
+
+  ]
+  }
+]);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
