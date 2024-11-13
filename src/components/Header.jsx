@@ -17,6 +17,8 @@ export default function Header() {
     navigate('/list');
   };
 
+// TODO 리코일을 사용해 페이지마다 주체, 공간, 경험 중 불 들어오는 거 다르게 하기
+
   return (
     <header className={classes.header}>
       <h1 className={classes.logo} onClick={handleMain}>

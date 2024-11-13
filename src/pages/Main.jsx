@@ -3,8 +3,6 @@ import MainSwiper from "../pages/MainSwiper";
 
 export default function Main() {
 
-
- {/* TODO 컴포넌트를 가져와서 영상 5개 아무거나 뿌리기, 영상 누르면 그 영상 디테일로 이동 */}
     return (
         <>
             <h1 style={{textAlign:'center'}}> 한국근대교육의 주체, 공간, 경험</h1>

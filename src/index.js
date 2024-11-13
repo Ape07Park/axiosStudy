@@ -16,7 +16,7 @@ const router = createBrowserRouter([
   { path: '/',
   element: <App/>,
   errorElement: <NotFound/>,
-  // index: true는 / 경로에 접근했을 때 <MainPage />를 렌더링하도록 설정
+  // index: true는 / 경로에 접근했을 때 <Main/>를 렌더링하도록 설정
 
   children : [
     { index: true, element: <Main /> },
