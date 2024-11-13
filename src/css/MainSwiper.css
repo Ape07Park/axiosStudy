@@ -1,0 +1,36 @@
+/* MainSwiper.css */
+.swiper-container {
+    width: 100%;
+    max-width: 1000px; /* 컨테이너의 최대 너비를 더 크게 설정 */
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    max-width: 500px; /* 비디오 카드의 최대 너비를 더 크게 설정 */
+}
+
+.video-thumbnail {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-title {
+    font-size: 1.2em;
+    margin: 10px 0;
+    padding: 0 10px;
+}
