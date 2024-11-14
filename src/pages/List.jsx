@@ -1,90 +1,113 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import axiosInstance from "../api/youtubeAxios";
-import styles from '../css/UserList.module.css'; // css 폴더 내의 CSS 모듈 import
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 react-router-dom 사용
-import CustomPagination from "../components/CustomPagination";
-import SearchBar from "../components/SearchBar";
+import styles from '../css/UserList.module.css';
+import { useNavigate } from "react-router-dom";
 
 function List({ onUserClick }) {
-    const [datas, setDatas] = useState([]); // 사용자 상태 정의: 사용자 리스트 저장
-    const [showModal, setShowModal] = useState(false); // 모달 상태 정의
-    const [selectedUserId, setSelectedUserId] = useState(null); // 선택된 사용자 ID 상태 정의
+    const [datas, setDatas] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
     const navigate = useNavigate();
+    
+     // 변수값의 변경으로 인한 리랜더링 방지를 위해 useState가 아닌 useRef로 함
+    const observer = useRef();
 
-    // 현재 페이지 상태 정의
-    const [currentPage, setCurrentPage] = useState(1);
+    const fetchDatas = async (pageNum) => {
+        try {
+            setIsLoading(true);
+            const response = await axiosInstance.get('/db', {
+                params: { page: pageNum }
+            });
 
-    const itemsPerPage = 5; // 한 페이지에 보여줄 아이템 수
+            const newItems = response.data.db[0].items || [];
 
-    useEffect(() => {
-        axiosInstance.get('/db')
-            .then(response => {
-                console.log("API Response:", response); // 응답을 콘솔에 출력
-                setDatas(response.data.db[0].items || []); // 데이터가 없으면 빈 배열로 초기화
-            })
-            .catch(error => console.error("Error fetching users:", error));
-    }, []); // axios.get()이 성공하면 response.data가 users 상태에 저장됩니다.
-
-    const handleUserClick = (id) => {
-        setSelectedUserId(id); // 선택된 사용자 ID 설정
-        setShowModal(true); // 모달 창 표시
-    };
-
-    const handleModalClose = () => {
-        setShowModal(false); // 모달 창 닫기
-        onUserClick(selectedUserId); // onUserClick 호출
-    };
-
-    const handleModalConfirm = () => {
-        setShowModal(false); // 모달 창 닫기
-        if (selectedUserId) {
-            navigate(`/userDetail/${selectedUserId}`); // 페이지 이동
+            if (newItems.length === 0) {
+                setHasMore(false);
+            } else {
+                setDatas(prevDatas => [...prevDatas, ...newItems]);
+            }
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    // 페이징
-    // pageNumber를 넣어 현재 페이지로 만듦
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
+    useEffect(() => {
+        fetchDatas(page);
+    }, [page]);
+
+    // node는 관찰대상
+    // 컴포넌트가 다시 렌더링될 때마다 동일한 함수 인스턴스를 재사용
+    // 랜더링 시 첫 인자인 캐싱한 함수 반환 그 뒤로는 의존성 배열 즉 두 번째 인자의 값이 바뀔 때만 함수 계속 반환
+    // 로딩 중이거나 데이터가 더 있는지 판별하기 전까진 같은 함수 사용
+    const lastItemRef = useCallback((node) => {
+
+        if (isLoading) return; // 새 패이지 요청 방지
+        
+        if (observer.current) {
+            observer.current.disconnect(); // 감지하는 것이 있으면 지우기
+        }
+
+         // IntersectionObserver: 현재 화면에 보여지고 있는 영역(뷰 포트)를 감지. 화면에 나오는 것과 내가 보고 있는 화면이 일치하는지 감지
+         // 감지기 생성
+        observer.current = new IntersectionObserver(entries => {
+             // 첫 번째 관찰 대상이 지금 보는 것과 같은지
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prevPage => prevPage + 1);
+            }
+        });
+
+        if (node) {
+            observer.current.observe(node);
+        }
+    }, [isLoading, hasMore]); // isLoading과 hasMore가 변경될 때만 새로 생성
+
+    const handleUserClick = (id) => {
+        setSelectedUserId(id);
+        setShowModal(true);
     };
 
-    const indexOfLastItem = currentPage * itemsPerPage; // 현재 페이지의 마지막 아이템: 현재 페이지 * 페이지 당 아이템 ex) 2 페이지 10번 아이템
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // 현재 페이지의 첫 번째 아이템: 현재 페이지의 마지막 아이템 - 페이지 당 아이템 ex) 2페이지 6번 아이템
-    const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem); // 현재 페이지의 아이템들: 현재 페이지의 첫 아이템 ~ 현재 페이지의 마지막 아이템
+    const handleModalClose = () => {
+        setShowModal(false);
+        onUserClick(selectedUserId);
+    };
 
+    const handleModalConfirm = () => {
+        setShowModal(false);
+        if (selectedUserId) {
+            navigate(`/userDetail/${selectedUserId}`);
+        }
+    };
 
-    // TODO 검색값을 넣을 함수 만들어 넣기
     return (
         <div className={styles.container}>
-            {/* <SearchBar datas/> */}
-
             <h2 className={styles.title}>Video List</h2>
             <ul className={styles.list}>
-                {currentItems.length > 0 ? ( // 데이터가 있을 때만 map 함수 호출
-                    currentItems.map(data => (
-                        <li
-                            key={data.id}
-                            onClick={() => handleUserClick(data.id)} // 각 항목을 클릭할 때 handleUserClick 호출
-                            className={styles.listItem}
-                        >
-                            <ul>
-                                <li>아이디: {data.id}</li>
-                                <li>영상 제목: {data.snippet.title}</li>
-                                <li>채널 이름: {data.snippet.channelTitle}</li>
-                                <li>조회수: {data.statistics.viewCount}</li>
-                                <li>게시일: {data.snippet.publishedAt}</li>
-                            </ul>
-                        </li>
-                    ))
-                ) : (
-                    <li>Loading...</li> // 데이터가 없을 때 표시할 내용
-                )}
+                {datas.map((data, index) => (
+                    <li
+                        key={data.id}
+                        onClick={() => handleUserClick(data.id)}
+                        className={styles.listItem}
+                        ref={index === datas.length - 1 ? lastItemRef : null}
+                    >
+                        <ul>
+                            <li>아이디: {data.id}</li>
+                            <li>영상 제목: {data.snippet.title}</li>
+                            <li>채널 이름: {data.snippet.channelTitle}</li>
+                            <li>조회수: {data.statistics.viewCount}</li>
+                            <li>게시일: {data.snippet.publishedAt}</li>
+                        </ul>
+                    </li>
+                ))}
             </ul>
-            <CustomPagination
-                totalItemsCount={datas.length}
-                itemsCountPerPage={itemsPerPage}
-                onPageChange={handlePageChange}
-            />
+
+            {isLoading && <div className={styles.loading}><img src='/img/loading.gif'></img></div>}
+            {!hasMore && <div className={styles.noMore}>No more videos to load</div>}
+
             {showModal && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>

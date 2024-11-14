@@ -1,8 +1,7 @@
 // UserDetail.js
 import React, { useState, useEffect } from 'react';
-import customFetch from '../api/fetch'; // 경로 수정
-import styles from '../css/UserDetail.module.css'; // css 폴더 내의 CSS 모듈 import
-
+import customFetch from '../api/fetch'; 
+import styles from '../css/UserDetail.module.css'; 
 function UserDetail({ userId }) {
   const [user, setUser] = useState(null); // user 상태: 데이터를 성공적으로 불러오면 user 상태에 저장되며, user 값이 null이 아닐 경우 상세 정보를 표시합니다.
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
