@@ -11,7 +11,7 @@ function List({ onUserClick }) {
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    
+
      // 변수값의 변경으로 인한 리랜더링 방지를 위해 useState가 아닌 useRef로 함
     const observer = useRef();
 

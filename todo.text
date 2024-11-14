@@ -7,12 +7,12 @@
 Nginx 와 리액트 연동
 npm run start 로 실행중 프로세스가 죽을 경우 어떻게 자동으로 실행할것인가 ?
 
+리액트 Ckeditor 적용, 높이 적용, 이미지 업로드
 
 - 리액트 Hooks
 
 useMemo
 useReducer
-React,memo
 Custom Hooks
 useId()
 useLayoutEffect
@@ -31,6 +31,7 @@ onKeyUp
 onSubmit
 
 - Form 요소
+
 form
 input
 textarea
