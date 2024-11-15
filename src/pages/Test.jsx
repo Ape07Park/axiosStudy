@@ -1,33 +1,62 @@
-import React, { useReducer } from 'react';
+import React, { useState } from 'react';
 
-// 초기 상태: 처음 점수는 0점
-const initialState = { score: 0 };
+const EventsExample = () => {
+  const [inputValue, setInputValue] = useState('');
+  const [focusStatus, setFocusStatus] = useState('');
+  const [keyInfo, setKeyInfo] = useState('');
+  const [submitData, setSubmitData] = useState('');
 
-// 리듀서 함수: 새로운 상태를 계산하는 방법
-function reducer(state, action) {
-  switch (action.type) {
-    case 'increase':
-      return { score: state.score + 1 }; // 점수를 1점 올리기
-    case 'decrease':
-      return { score: state.score - 1 }; // 점수를 1점 내리기
-    default:
-      return state; // 다른 경우는 현재 상태를 그대로 유지
-  }
-}
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
 
-function ScoreCounter() {
-  // useReducer
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitData(`폼 제출됨: ${inputValue}`);
+  };
 
   return (
-    <div>
-      <p>현재 점수: {state.score}</p>
-     
-      <button onClick={() => dispatch({ type: 'increase' })}>점수 올리기</button>
-     
-      <button onClick={() => dispatch({ type: 'decrease' })}>점수 내리기</button>
+    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold mb-4">React 이벤트 예제</h2>
+      <form onSubmit={handleSubmit}>
+        {/* onChange & onClick 예제 */}
+        <div className="space-y-2">
+          <input
+            type="text"
+            className="border p-2 w-full rounded"
+            value={inputValue}
+            onChange={handleChange}
+            onFocus={() => setFocusStatus('입력창 포커스됨')}
+            onBlur={() => setFocusStatus('입력창 포커스 잃음')}
+            onKeyDown={(e) => setKeyInfo(`키 누름: ${e.key}`)}
+            onKeyUp={(e) => setKeyInfo(`키 뗌: ${e.key}`)}
+            placeholder="텍스트를 입력하세요"
+          />
+          
+          <div>입력값: {inputValue}</div>
+          
+          <div>포커스 상태: {focusStatus}</div>
+          
+          <div>키보드 정보: {keyInfo}</div>
+        </div>
+
+        {/* onSubmit 예제 */}
+        <button
+          type="submit"
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          onClick={() => console.log('버튼 클릭됨')}
+        >
+          제출
+        </button>
+
+        {submitData && (
+          <div className="mt-4 text-sm text-green-600">
+            {submitData}
+          </div>
+        )}
+      </form>
     </div>
   );
-}
+};
 
-export default ScoreCounter;
+export default EventsExample;

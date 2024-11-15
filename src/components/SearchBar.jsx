@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Dropdown from "./DropDown";
 
 /**
  * 검색 조건: 영상 제목, 채널 이름, 검색 결과 없으면 없다고 하고 있으면 총 몇건 해서 나오게 하기
@@ -23,7 +24,7 @@ export default function SearchBar({onSearch}) {
 
     return (
         <div>
-            {/* 드롭박스 */}
+           <Dropdown/>
             <input
                 type="text"
                 placeholder="검색어를 넣으세요"

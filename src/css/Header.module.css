@@ -57,3 +57,12 @@
   background-color: #c0392b;
   transform: scale(1.05);
 }
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown {
+  margin-right: 10px; /* 드롭다운과 검색 인풋 사이의 간격을 조정합니다 */
+}

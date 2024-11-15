@@ -4,6 +4,7 @@ import styles from '../css/ListModal.module.css'; // css 폴더 내의 CSS 모�
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 react-router-dom 사용
 import CustomPagination from "../components/CustomPagination";
 import SearchBar from "../components/SearchBar";
+import { RecoilRoot } from "recoil";
 
 function ListModal({ onUserClick, closeModal }) {
     const [datas, setDatas] = useState([]);
@@ -66,9 +67,15 @@ function ListModal({ onUserClick, closeModal }) {
         <div className={styles.container}>
             <button className={styles.closeButton} onClick={closeModal}>닫기</button>
             <h2 className={styles.title}>Video List Modal</h2>
-
-            <SearchBar onSearch={onSearch} />
-
+            <RecoilRoot>
+                <div className={styles.searchContainer}>
+                    <div className={styles.dropdown}> {/* 여기에 드롭다운 컴포넌트를 추가합니다 */}
+                        {/* 드롭다운 컴포넌트 */}
+                    </div>
+                    <SearchBar onSearch={onSearch} />
+                </div>
+            </RecoilRoot>
+            
             <ul className={styles.list}>
                 {currentItems.length > 0 ? (
                     currentItems.map(data => (
