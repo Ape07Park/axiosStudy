@@ -1,35 +1,33 @@
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import React, { useReducer } from 'react';
 
-function LayoutEffectExample() {
-  const [size, setSize] = useState({ width: 0, height: 0 });
-  const divRef = useRef(null);
+// 초기 상태: 처음 점수는 0점
+const initialState = { score: 0 };
 
-  // 크기 측정은 랜더링 전에 이루어져야 한디
-  useLayoutEffect(() => {
+// 리듀서 함수: 새로운 상태를 계산하는 방법
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increase':
+      return { score: state.score + 1 }; // 점수를 1점 올리기
+    case 'decrease':
+      return { score: state.score - 1 }; // 점수를 1점 내리기
+    default:
+      return state; // 다른 경우는 현재 상태를 그대로 유지
+  }
+}
 
-    const updateSize = () => {
-      const { offsetWidth, offsetHeight } = divRef.current; // 사이즈 변경 중 다시 리랜더링 방지 위해 
-      setSize({ width: offsetWidth, height: offsetHeight });
-    };
-
-    updateSize(); // 초기 크기 측정
-    window.addEventListener('resize', updateSize); // 윈도우 크기 변경 시 크기 업데이트
-
-    return () => {
-      window.removeEventListener('resize', updateSize); //  cleanup 함수: 컴포넌트 언마운트 시 이벤트 리스너 제거 
-    };
-  }, []); // 빈 배열을 두 번째 인자로 전달하여 마운트(화면에 데이터, 컴포넌트가 나타날 때) 시와 언마운트 시에만 실행되도록 함
- 
+function ScoreCounter() {
+  // useReducer
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <div>
-      <div ref={divRef} style={{ width: '50%', height: '100px', background: 'lightblue' }}>
-        크기 측정 대상
-      </div>
-      <p>너비: {size.width}px</p>
-      <p>높이: {size.height}px</p>
+      <p>현재 점수: {state.score}</p>
+     
+      <button onClick={() => dispatch({ type: 'increase' })}>점수 올리기</button>
+     
+      <button onClick={() => dispatch({ type: 'decrease' })}>점수 내리기</button>
     </div>
   );
 }
 
-export default LayoutEffectExample;
+export default ScoreCounter;
