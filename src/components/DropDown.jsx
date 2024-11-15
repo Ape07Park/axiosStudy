@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from 'styled-components';
+import { dropDownMenuRecoil } from "./recoil/DropDownRecoil";
 
 const Dropdown = () => {
-
+    const dropDownMenu = useRecoilValue(dropDownMenuRecoil);
     const [searchItem, setSearchItem] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [item, setItem] = useState('title');
-
-    const dropDownMenu = useRecoilValue(dropDownMenu);
-
-    // useEffect(() =>{
-
-    // })
 
     return (
         <DropdownWrapper>

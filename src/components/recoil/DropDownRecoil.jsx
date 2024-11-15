@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 
-export const dropDownMenu = atom({
-    key: 'dropDownMenu',
-    default: ['title, channelTitle'],
+export const dropDownMenuRecoil = atom({
+    key: 'dropDownMenuRecoil',
+    default: ['title, channelTitle']
 });
 
 
