@@ -1,8 +1,6 @@
 리액트 axios 사용법 숙지
 리액트 페이지네이션 컴포넌트와 (처음,이전,1~10.다음,마지막)
 
-리액트 A, Link Button 이벤트 처리 방법
-
 리액트 서버 배포
 Nginx 와 리액트 연동
 npm run start 로 실행중 프로세스가 죽을 경우 어떻게 자동으로 실행할것인가 ?
@@ -10,10 +8,8 @@ npm run start 로 실행중 프로세스가 죽을 경우 어떻게 자동으로
 리액트 Ckeditor 적용, 높이 적용, 이미지 업로드
 
 - 리액트 Hooks
-
-useReducer
 Custom Hooks
-useId()
+
 
 
 

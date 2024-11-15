@@ -2,11 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import axiosInstance from "../api/youtubeAxios";
 import styles from '../css/UserList.module.css';
 import { useNavigate } from "react-router-dom";
+import ListPagingOn from "./ListModal";
 
-function List({ onUserClick }) {
+
+function List() {
     const [datas, setDatas] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
@@ -66,21 +67,13 @@ function List({ onUserClick }) {
         }
     }, [isLoading, hasMore]); // isLoading과 hasMore가 변경될 때만 새로 생성
 
-    const handleUserClick = (id) => {
-        setSelectedUserId(id);
+    const handleUserClick = () => {
         setShowModal(true);
     };
 
     const handleModalClose = () => {
         setShowModal(false);
-        onUserClick(selectedUserId);
-    };
-
-    const handleModalConfirm = () => {
-        setShowModal(false);
-        if (selectedUserId) {
-            navigate(`/userDetail/${selectedUserId}`);
-        }
+       
     };
 
     return (
@@ -111,12 +104,12 @@ function List({ onUserClick }) {
             {showModal && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
-                        <p>페이지를 이동하겠습니까?</p>
-                        <button onClick={handleModalConfirm}>OK</button>
-                        <button onClick={handleModalClose}>No</button>
+                        {/* 리스트 + 페이징 컴포넌트 넣기 */}
+                        <ListPagingOn closeModal={handleModalClose}/>
                     </div>
                 </div>
             )}
+
         </div>
     );
 }

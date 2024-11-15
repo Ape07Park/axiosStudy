@@ -1,26 +1,28 @@
-// import { useState } from "react";
+import React from "react";
 
-// export default function SearchBar() {
+/**
+ * 검색 조건: 영상 제목, 채널 이름, 검색 결과 없으면 없다고 하고 있으면 총 몇건 해서 나오게 하기
+ * 
+ * 영상 제목, 채널 이름 중 선택할 수 있게 하기
+ */
 
-//     const [searchInput, setSearchInput] = useState('');
-//     const [filteredResults, setFilterdResults] = useState([]);
+export default function SearchBar(onSearch, searchTerm) {
 
-//     const searchItems = (searchValue) => {
-//         setSearchInput(searchValue);
-//         // 필터링 된 걸 filteredData에 담기
-//         const filteredData = datas.filter((item) => {
-//             // 객체 아이템으로부터 값들을 얻기 위해 Object.values를 사용
-//             return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
-//         })
-//         setFilterdResults(filteredData);
-//     }
+    // 필터 함수를 이용해 필터링 조건을 검색어를 넣기 
+
+    // 배열에 검색 분류, 검색어 담기
+
+    const handleInputChange = (event) => {
+        const term = event.target.value;
+        onSearch(term);
+    }
     
-//     return
-//     (
-//         <>
-//         <input placeholder="Search..." onChange={(e) => searchItems(e.target.value)} />
-//         </>
+    return(
 
-//     );
+        <div>
+            <input placeholder="검색어를 넣으세요" value={searchTerm}/>
+            <button onClick={handleInputChange}>검색</button>
+        </div>
+    )
 
-// }
+}
