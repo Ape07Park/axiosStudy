@@ -1,35 +1,35 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 
-function slowFunction(num) {
-  console.log('엄청 느린 계산...');
-  for (let i = 0; i <= 1000000000; i++) {} // 일부러 시간을 지연시키기 위해서
-  return num * 2;
-}
+function LayoutEffectExample() {
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  const divRef = useRef(null);
 
-export default function Test() {
-  const [number, setNumber] = useState(0);
-  const [dark, setDark] = useState(false);
+  // 크기 측정은 랜더링 전에 이루어져야 한디
+  useLayoutEffect(() => {
 
-  // useMemo를 사용하여 메모이제이션
-  const doubleNumber = useMemo(() => {
-    return slowFunction(number);
-  }, [number]);
+    const updateSize = () => {
+      const { offsetWidth, offsetHeight } = divRef.current; // 사이즈 변경 중 다시 리랜더링 방지 위해 
+      setSize({ width: offsetWidth, height: offsetHeight });
+    };
 
-  const themeStyles = {
-    backgroundColor: dark ? 'black' : 'white',
-    color: dark ? 'black' : 'white'
-  };
+    updateSize(); // 초기 크기 측정
+    window.addEventListener('resize', updateSize); // 윈도우 크기 변경 시 크기 업데이트
+
+    return () => {
+      window.removeEventListener('resize', updateSize); //  cleanup 함수: 컴포넌트 언마운트 시 이벤트 리스너 제거 
+    };
+  }, []); // 빈 배열을 두 번째 인자로 전달하여 마운트(화면에 데이터, 컴포넌트가 나타날 때) 시와 언마운트 시에만 실행되도록 함
+ 
 
   return (
-    
     <div>
-      <input type="number" value={number} onChange={e => setNumber(parseInt(e.target.value))} />
-      <button onClick={() => setDark(prevDark => !prevDark)}>Change Theme</button>
-      <div style={themeStyles}>{doubleNumber}</div>
+      <div ref={divRef} style={{ width: '50%', height: '100px', background: 'lightblue' }}>
+        크기 측정 대상
+      </div>
+      <p>너비: {size.width}px</p>
+      <p>높이: {size.height}px</p>
     </div>
   );
-};
+}
 
-// 숫자를 입력하면 setNumber가 작동한다. useMemo에 의해 slowFunction함수가 작동하고 시간이 지나면 입력한 숫자에 * 2가 된다.
-// 여기서 중요한 건 색깔을 바꾸면 재랜더링이 발생하지만 숫자는 0으로 초기화 되지 않고 오직 입력으로 숫자를 바꿀 때만 숫자가 변한다는 것이다.
-// 값을 캐싱해 남겨두는 것이다
+export default LayoutEffectExample;

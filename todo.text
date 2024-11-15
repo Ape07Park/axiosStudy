@@ -11,11 +11,10 @@ npm run start 로 실행중 프로세스가 죽을 경우 어떻게 자동으로
 
 - 리액트 Hooks
 
-useMemo
 useReducer
 Custom Hooks
 useId()
-useLayoutEffect
+
 
 
 - 리액트 Event
