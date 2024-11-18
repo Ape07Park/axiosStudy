@@ -12,6 +12,7 @@ function ListModal({ onUserClick, closeModal }) {
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
+    const [category, setCategory] = useState("");
 
     const itemsPerPage = 4;
     const navigate = useNavigate();
@@ -54,10 +55,22 @@ function ListModal({ onUserClick, closeModal }) {
         setSearchTerm(term);
     };
 
-    const filteredData = datas.filter((data) =>
-        data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        data.snippet.channelTitle.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const onCategory = (category) => {
+        setCategory(category)
+    }
+
+    // TODO 검색에 카테고리 먼저 적용하기
+    const filteredData = datas.filter((data) => {
+        console.log("category: " + category);
+        
+        if (category === 'title') {
+          return  data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase())
+        } else if(category === 'chanelTitle'){
+            return data.snippet.channelTitle.toLowerCase().includes(searchTerm.toLowerCase())
+        } else{
+            return data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase())
+        }
+});
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -72,7 +85,7 @@ function ListModal({ onUserClick, closeModal }) {
                     <div className={styles.dropdown}> {/* 여기에 드롭다운 컴포넌트를 추가합니다 */}
                         {/* 드롭다운 컴포넌트 */}
                     </div>
-                    <SearchBar onSearch={onSearch} />
+                    <SearchBar onSearch={onSearch} onCategory={onCategory}/>
                 </div>
             </RecoilRoot>
             

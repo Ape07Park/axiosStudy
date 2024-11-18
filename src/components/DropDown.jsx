@@ -1,21 +1,46 @@
-import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from 'styled-components';
 import { dropDownMenuRecoil } from "./recoil/DropDownRecoil";
 
-const Dropdown = () => {
+const Dropdown = ({ onCategory }) => {
+
+    // 리코일 getter
     const dropDownMenu = useRecoilValue(dropDownMenuRecoil);
+
+    // 리코일 setter
+    const setDropDownMenu = useSetRecoilState(dropDownMenuRecoil);
+
     const [searchItem, setSearchItem] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [item, setItem] = useState('title');
 
+    // 컴포넌트가 로드될 때 chanelTitle 추가
+    useEffect(() => {
+        setDropDownMenu((prevMenu) => {
+            if (!prevMenu.includes('chanelTitle')) {
+                return [...prevMenu, 'chanelTitle'];
+            }
+            return prevMenu;
+        });
+    }, [setDropDownMenu]);
+
+    // TODO 종류를 searchBar로 넘기기
+
+    const handleCategory = (data) => {
+        onCategory(data);
+    }
+
     return (
         <DropdownWrapper>
+
             <DropdownBox onClick={() => setIsOpen(!isOpen)}>
                 {item}
                 <Arrow>▼</Arrow>
             </DropdownBox>
+
             {isOpen &&
+
                 <SelectWrapper>
                     {dropDownMenu.filter((data) => {
                         if (searchItem === '') {
@@ -25,12 +50,17 @@ const Dropdown = () => {
                         }
                         return null;
                     }).map(data => (
-                        <SelectOptions key={data} onClick={() => { setItem(data); setIsOpen(false); }}>
+                        <SelectOptions key={data} onClick={() => {
+                            setItem(data); setIsOpen(false);
+                            handleCategory(data);
+
+                        }}>
                             {data}
                         </SelectOptions>
                     ))}
                 </SelectWrapper>
             }
+
         </DropdownWrapper>
     );
 };
