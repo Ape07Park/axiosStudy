@@ -5,10 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './pages/NotFound';
-import List from './pages/List';
-import Main from './pages/Main';
-import Detail from './pages/Main';
-import Test from './pages/Test';
+import List from '@pages/List';
+import Main from '@pages/Main';
+import Detail from '@pages/Main';
+import Test from '@pages/Test';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
