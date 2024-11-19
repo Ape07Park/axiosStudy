@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../api/youtubeAxios";
-import styles from '../css/ListModal.module.css'; // css 폴더 내의 CSS 모듈 import
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 react-router-dom 사용
+import styles from '../css/ListModal.module.css'; // Import CSS modules from css folder
+import { useNavigate } from "react-router-dom"; // Use react-router-dom for page navigation
 import CustomPagination from "../components/CustomPagination";
 import SearchBar from "../components/SearchBar";
 import { RecoilRoot } from "recoil";
+import VideoDetailModal from '../pages/Detail';
+
 
 function ListModal({ onUserClick, closeModal }) {
     const [datas, setDatas] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
+    const [selectedData, setSelectedData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
     const [category, setCategory] = useState("");
@@ -32,6 +36,7 @@ function ListModal({ onUserClick, closeModal }) {
 
     const handleUserClick = (id) => {
         setSelectedUserId(id);
+        setSelectedData(datas.find(data => data.id === id));
         setShowModal(true);
     };
 
@@ -42,11 +47,16 @@ function ListModal({ onUserClick, closeModal }) {
 
     const handleModalConfirm = () => {
         setShowModal(false);
-        if (selectedUserId) {
-            navigate(`/userDetail/${selectedUserId}`);
-        }
+        setShowDetailModal(true);
     };
 
+    const handleModalError = () => {
+        throw new Error('User triggered error');
+    };
+
+    const handleDetailModalClose = () => {
+        setShowDetailModal(false);
+    };
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -59,18 +69,16 @@ function ListModal({ onUserClick, closeModal }) {
         setCategory(category)
     }
 
-    // TODO 검색에 카테고리 먼저 적용하기
+    // Filtered data based on search term and category
     const filteredData = datas.filter((data) => {
-        console.log("category: " + category);
-        
         if (category === 'title') {
-          return  data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase())
-        } else if(category === 'chanelTitle'){
-            return data.snippet.channelTitle.toLowerCase().includes(searchTerm.toLowerCase())
-        } else{
-            return data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase())
+            return data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase());
+        } else if (category === 'chanelTitle') {
+            return data.snippet.channelTitle.toLowerCase().includes(searchTerm.toLowerCase());
+        } else {
+            return data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase());
         }
-});
+    });
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -82,10 +90,10 @@ function ListModal({ onUserClick, closeModal }) {
             <h2 className={styles.title}>Video List Modal</h2>
             <RecoilRoot>
                 <div className={styles.searchContainer}>
-                    <div className={styles.dropdown}> {/* 여기에 드롭다운 컴포넌트를 추가합니다 */}
-                        {/* 드롭다운 컴포넌트 */}
+                    <div className={styles.dropdown}>
+                        {/* Dropdown component */}
                     </div>
-                    <SearchBar onSearch={onSearch} onCategory={onCategory}/>
+                    <SearchBar onSearch={onSearch} onCategory={onCategory} />
                 </div>
             </RecoilRoot>
             
@@ -110,20 +118,29 @@ function ListModal({ onUserClick, closeModal }) {
                     <li>Loading...</li>
                 )}
             </ul>
+
             <CustomPagination
                 totalItemsCount={filteredData.length}
                 itemsCountPerPage={itemsPerPage}
                 onPageChange={handlePageChange}
             />
+
             {showModal && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
                         <p>페이지를 이동하겠습니까?</p>
-                        <button className={`${styles.okButton}`} onClick={handleModalConfirm}>OK</button>
-                        <button className={`${styles.cancelButton}`} onClick={handleModalClose}>No</button>
+                        <button className={styles.okButton} onClick={handleModalConfirm}>OK</button>
+                        <button className={styles.cancelButton} onClick={handleModalError}>No</button>
                     </div>
                 </div>
             )}
+
+{showDetailModal && selectedData && (
+    <VideoDetailModal 
+        data={selectedData} 
+        onClose={handleDetailModalClose}
+    />
+)}
         </div>
     );
 }
