@@ -11,7 +11,7 @@ export default function NotFound() {
 
   return (
     <div style={{margin: '20px'}}>
-      <h1>Page Not Found!!!
+      <h1>에러 페이지
         <span>
           <button onClick={handle}>홈</button>
         </span>

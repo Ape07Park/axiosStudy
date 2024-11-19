@@ -91,9 +91,9 @@ function ListModal({ onUserClick, closeModal }) {
             
             <ul className={styles.list}>
                 {currentItems.length > 0 ? (
-                    currentItems.map(data => (
+                    currentItems.map((data, index) => (
                         <li
-                            key={data.id}
+                            key={index}
                             onClick={() => handleUserClick(data.id)}
                             className={styles.listItem}
                         >
