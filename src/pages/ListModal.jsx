@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axiosInstance from "../api/youtubeAxios";
 import styles from '../css/ListModal.module.css'; // Import CSS modules from css folder
 import { useNavigate } from "react-router-dom"; // Use react-router-dom for page navigation
@@ -6,7 +6,6 @@ import CustomPagination from "../components/CustomPagination";
 import SearchBar from "../components/SearchBar";
 import { RecoilRoot } from "recoil";
 import VideoDetailModal from '../pages/Detail';
-
 
 function ListModal({ onUserClick, closeModal }) {
     const [datas, setDatas] = useState([]);
@@ -20,6 +19,7 @@ function ListModal({ onUserClick, closeModal }) {
 
     const itemsPerPage = 4;
     const navigate = useNavigate();
+    const totalCountRef = useRef(); // DOM 참조를 위한 useRef
 
     useEffect(() => {
         fetchDatas(currentPage);
@@ -57,6 +57,7 @@ function ListModal({ onUserClick, closeModal }) {
     const handleDetailModalClose = () => {
         setShowDetailModal(false);
     };
+
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -66,19 +67,25 @@ function ListModal({ onUserClick, closeModal }) {
     };
 
     const onCategory = (category) => {
-        setCategory(category)
-    }
+        setCategory(category);
+    };
 
     // Filtered data based on search term and category
     const filteredData = datas.filter((data) => {
         if (category === 'title') {
             return data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase());
-        } else if (category === 'chanelTitle') {
+        } else if (category === 'channelTitle') {
             return data.snippet.channelTitle.toLowerCase().includes(searchTerm.toLowerCase());
         } else {
             return data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase());
         }
     });
+
+    useEffect(() => {
+        if (totalCountRef.current) {
+            totalCountRef.current.textContent = `Total Results: ${filteredData.length}`;
+        }
+    }, [filteredData]); // filteredData가 변경될 때마다 실행
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -88,6 +95,7 @@ function ListModal({ onUserClick, closeModal }) {
         <div className={styles.container}>
             <button className={styles.closeButton} onClick={closeModal}>닫기</button>
             <h2 className={styles.title}>Video List Modal</h2>
+            <h3 ref={totalCountRef}></h3> {/* 검색 결과 개수를 표시할 태그 */}
             <RecoilRoot>
                 <div className={styles.searchContainer}>
                     <div className={styles.dropdown}>
@@ -96,7 +104,7 @@ function ListModal({ onUserClick, closeModal }) {
                     <SearchBar onSearch={onSearch} onCategory={onCategory} />
                 </div>
             </RecoilRoot>
-            
+
             <ul className={styles.list}>
                 {currentItems.length > 0 ? (
                     currentItems.map((data, index) => (
@@ -135,12 +143,12 @@ function ListModal({ onUserClick, closeModal }) {
                 </div>
             )}
 
-{showDetailModal && selectedData && (
-    <VideoDetailModal 
-        data={selectedData} 
-        onClose={handleDetailModalClose}
-    />
-)}
+            {showDetailModal && selectedData && (
+                <VideoDetailModal
+                    data={selectedData}
+                    onClose={handleDetailModalClose}
+                />
+            )}
         </div>
     );
 }

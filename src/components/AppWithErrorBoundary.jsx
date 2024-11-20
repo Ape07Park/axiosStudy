@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ function FallbackComponent() {
   useEffect(() => {
     navigate('/error');
   }, [navigate]);
-  
+
   return null;
 }
 
@@ -21,7 +21,7 @@ const errorHandler = (error, info) => {
 
 export default function AppErrorBoundary({ children }) {
   return (
-    <ErrorBoundary 
+    <ErrorBoundary
       FallbackComponent={FallbackComponent}
       onError={errorHandler}
     >

@@ -4,7 +4,6 @@ import styles from '../css/UserList.module.css';
 import { useNavigate } from "react-router-dom";
 import ListPagingOn from "./ListModal";
 
-
 function List() {
     const [datas, setDatas] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -13,8 +12,9 @@ function List() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
-     // 변수값의 변경으로 인한 리랜더링 방지를 위해 useState가 아닌 useRef로 함
+    // 변수값의 변경으로 인한 리랜더링 방지를 위해 useState가 아닌 useRef로 함
     const observer = useRef();
+    const totalCountRef = useRef(); // DOM 참조를 위한 useRef
 
     const fetchDatas = async (pageNum) => {
         try {
@@ -24,12 +24,19 @@ function List() {
             });
 
             const newItems = response.data.db[0].items || [];
+            const totalItems = response.data.db[0].pageInfo.resultsPerPage; // 응답 데이터에서 totalResults를 가져옴
+
+            // totalCount를 DOM에 삽입
+            if (totalCountRef.current) {
+                totalCountRef.current.textContent = `Total Items: ${totalItems}`;
+            }
 
             if (newItems.length === 0) {
                 setHasMore(false);
             } else {
                 setDatas(prevDatas => [...prevDatas, ...newItems]);
             }
+
         } catch (error) {
             console.error("Error fetching users:", error);
         } finally {
@@ -42,21 +49,15 @@ function List() {
     }, [page]);
 
     // node는 관찰대상
-    // 컴포넌트가 다시 렌더링될 때마다 동일한 함수 인스턴스를 재사용
-    // 랜더링 시 첫 인자인 캐싱한 함수 반환 그 뒤로는 의존성 배열 즉 두 번째 인자의 값이 바뀔 때만 함수 계속 반환
-    // 로딩 중이거나 데이터가 더 있는지 판별하기 전까진 같은 함수 사용
     const lastItemRef = useCallback((node) => {
+        if (isLoading) return; // 새 페이지 요청 방지
 
-        if (isLoading) return; // 새 패이지 요청 방지
-        
         if (observer.current) {
             observer.current.disconnect(); // 감지하는 것이 있으면 지우기
         }
 
-         // IntersectionObserver: 현재 화면에 보여지고 있는 영역(뷰 포트)를 감지. 화면에 나오는 것과 내가 보고 있는 화면이 일치하는지 감지
-         // 감지기 생성
+        // IntersectionObserver: 현재 화면에 보여지고 있는 영역(뷰 포트)를 감지
         observer.current = new IntersectionObserver(entries => {
-             // 첫 번째 관찰 대상이 지금 보는 것과 같은지
             if (entries[0].isIntersecting && hasMore) {
                 setPage(prevPage => prevPage + 1);
             }
@@ -73,12 +74,12 @@ function List() {
 
     const handleModalClose = () => {
         setShowModal(false);
-       
     };
 
     return (
         <div className={styles.container}>
             <h2 className={styles.title}>Video List</h2>
+            <h3 ref={totalCountRef}></h3> {/* 총 아이템 개수를 표시할 태그 */}
             <ul className={styles.list}>
                 {datas.map((data, index) => (
                     <li
@@ -98,14 +99,13 @@ function List() {
                 ))}
             </ul>
 
-            {isLoading && <div className={styles.loading}><img src='/img/loading.gif'></img></div>}
+            {isLoading && <div className={styles.loading}><img src='/img/loading.gif' alt="Loading..."/></div>}
             {!hasMore && <div className={styles.noMore}>No more videos to load</div>}
 
             {showModal && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
-                        {/* 리스트 + 페이징 컴포넌트 넣기 */}
-                        <ListPagingOn closeModal={handleModalClose}/>
+                        <ListPagingOn closeModal={handleModalClose} />
                     </div>
                 </div>
             )}
