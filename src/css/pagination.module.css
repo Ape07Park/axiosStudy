@@ -1,22 +1,38 @@
 .pagination {
-    margin-top: 2rem;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-  
-    > * {
-      cursor: pointer;
-    }
-  }
-  
-  .pagination__link {
-    transition: all 0.25s;
-    padding: 0.2rem 0.6rem;
-    border-radius: 0.3rem;
-  }
-  
-  .pagination__link__active {
-    background-color: #bbb;
-    color: #fefefe;
-  }
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+}
+
+.pagination li {
+  margin: 0 2px;
+}
+
+.pagination li a {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination li a:hover {
+  background-color: #eee;
+}
+
+.pagination .active a {
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+/* 네비게이션 버튼 스타일 */
+.pagination li:first-child a,
+.pagination li:last-child a,
+.pagination li:nth-child(2) a,
+.pagination li:nth-last-child(2) a {
+  font-size: 18px;
+  padding: 6px 12px;
+}

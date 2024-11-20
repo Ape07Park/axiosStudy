@@ -23,7 +23,7 @@ function ListModal({ onUserClick, closeModal }) {
 
   useEffect(() => {
     fetchDatas(currentPage);
-  }, []);
+  }, [currentPage]); // currentPage를 의존성 배열에 추가
 
   const fetchDatas = async (page) => {
     try {
@@ -131,6 +131,7 @@ function ListModal({ onUserClick, closeModal }) {
         totalItemsCount={filteredData.length}
         itemsCountPerPage={itemsPerPage}
         onPageChange={handlePageChange}
+        activePage={currentPage}  // 현재 페이지 번호 전달
       />
 
       {showModal && (
