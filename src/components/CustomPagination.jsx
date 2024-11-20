@@ -4,6 +4,7 @@ import '../css/Paging.css';
 
 // 리스트에서 총 아이템 수, 페이지 당 아이템 수. 페이지 변화 기능 함수, 현제 페이지 위치를 넘겨받음
 function CustomPagination({ totalItemsCount, itemsCountPerPage, onPageChange, activePage }) {
+  
   const handlePageChange = (pageNumber) => {
     onPageChange(pageNumber);
   };
@@ -12,9 +13,9 @@ function CustomPagination({ totalItemsCount, itemsCountPerPage, onPageChange, ac
     <div className="pagination-container">
       <Pagination
         activePage={activePage}
-        itemsCountPerPage={itemsCountPerPage}
-        totalItemsCount={totalItemsCount}
-        pageRangeDisplayed={10}
+        itemsCountPerPage={itemsCountPerPage} // 페이지 당 아이템 수
+        totalItemsCount={totalItemsCount} // 총 페이지 수
+        pageRangeDisplayed={10} // 페이지 범위
         onChange={handlePageChange}
         containerClassName={'pagination'}
         activeClassName={'active'}

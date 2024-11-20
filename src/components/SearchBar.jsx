@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import Dropdown from "./DropDown";
 
-/**
- * 검색 조건: 영상 제목, 채널 이름, 검색 결과 없으면 없다고 하고 있으면 총 몇건 해서 나오게 하기
- * 영상 제목, 채널 이름 중 선택할 수 있게 하기
- */
-
-
-export default function SearchBar({onSearch, onCategory}) {
+export default function SearchBar({ onSearch, onCategory }) {
 
     const [term, setTerm] = useState("");
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState("title");
 
 
     // 배열에 검색 분류, 검색어 담기
@@ -20,22 +13,25 @@ export default function SearchBar({onSearch, onCategory}) {
         setTerm(event.target.value);
     };
 
-    // 검색어 넘기기
+    // 카테고리, 검색어 넘기기
     const handleSearch = () => {
-        onSearch(term);
+
+        onCategory(category); // 카테고리를 리스트 모달로 넘김
+        onSearch(term); // 검색어를 리스트 모달로 넘김
     };
 
-    // TODO 여기로 카테고리 값이 잘 넘어오는지 확인하기
-    // category 넘기기
-    const handleCategory = (data) => {
-        setCategory(data);
-        
-        onCategory(data);
+    // category 입력 세팅하기
+    const handleCategory = (event) => {
+
+        setCategory(event.target.value);
     };
 
     return (
         <div>
-           <Dropdown onCategory={handleCategory}/>
+            <select onChange={handleCategory}>
+                <option value='title' selected>영상 제목</option>
+                <option value='channelTitle'>채널 이름</option>
+            </select>
             <input
                 type="text"
                 placeholder="검색어를 넣으세요"

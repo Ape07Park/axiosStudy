@@ -1,29 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
 import axiosInstance from "../api/youtubeAxios";
-import styles from '../css/ListModal.module.css'; // Import CSS modules from css folder
-import { useNavigate } from "react-router-dom"; // Use react-router-dom for page navigation
+import styles from '../css/ListModal.module.css';
 import CustomPagination from "../components/CustomPagination";
 import SearchBar from "../components/SearchBar";
 import { RecoilRoot } from "recoil";
 import VideoDetailModal from '../pages/Detail';
 
-function ListModal({ onUserClick, closeModal }) {
+// TODO 조회수. 게시일 별로 정렬, 게시일 날짜 만 나오게 하기 , 조회수에 3자리 마다 , 나오게 하기
+function ListModal({ closeModal }) {
   const [datas, setDatas] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
 
   const itemsPerPage = 3;
-  const navigate = useNavigate();
   const totalCountRef = useRef(); // DOM 참조를 위한 useRef
 
   useEffect(() => {
     fetchDatas(currentPage);
-  }, [currentPage]); // currentPage를 의존성 배열에 추가
+  }, [currentPage]);
 
   const fetchDatas = async (page) => {
     try {
@@ -40,16 +41,12 @@ function ListModal({ onUserClick, closeModal }) {
     setShowModal(true);
   };
 
-  const handleModalClose = () => {
-    setShowModal(false);
-    onUserClick(selectedUserId);
-  };
-
   const handleModalConfirm = () => {
     setShowModal(false);
     setShowDetailModal(true);
   };
 
+  // 에러 일으키기
   const handleModalError = () => {
     throw new Error('User triggered error');
   };
@@ -70,14 +67,14 @@ function ListModal({ onUserClick, closeModal }) {
     setCategory(category);
   };
 
-  // Filtered data based on search term and category
+  // 검색 카테고리에 따라 달라짐
   const filteredData = datas.filter((data) => {
     if (category === 'title') {
       return data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase());
     } else if (category === 'channelTitle') {
       return data.snippet.channelTitle.toLowerCase().includes(searchTerm.toLowerCase());
     } else {
-      return data.snippet.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return datas;
     }
   });
 
@@ -85,7 +82,7 @@ function ListModal({ onUserClick, closeModal }) {
     if (totalCountRef.current) {
       totalCountRef.current.textContent = `Total Results: ${filteredData.length}`;
     }
-  }, [filteredData]); // filteredData가 변경될 때마다 실행
+  }, [filteredData]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -95,7 +92,10 @@ function ListModal({ onUserClick, closeModal }) {
     <div className={styles.container}>
       <button className={styles.closeButton} onClick={closeModal}>닫기</button>
       <h2 className={styles.title}>Video List Modal</h2>
+
       <h3 ref={totalCountRef}></h3> {/* 검색 결과 개수를 표시할 태그 */}
+
+      {/* 카테고리 변수 바로 전달을 위해 리코일 사용 */}
       <RecoilRoot>
         <div className={styles.searchContainer}>
           <div className={styles.dropdown}>
@@ -104,6 +104,14 @@ function ListModal({ onUserClick, closeModal }) {
           <SearchBar onSearch={onSearch} onCategory={onCategory} />
         </div>
       </RecoilRoot>
+
+      <div>
+        <select id="user-color" >
+          <option value="" selected>정렬 선택</option>
+          <option value="red">조회수 순</option>
+          <option value="blue">게시일 순</option>
+        </select>
+      </div>
 
       <ul className={styles.list}>
         {currentItems.length > 0 ? (
@@ -127,6 +135,7 @@ function ListModal({ onUserClick, closeModal }) {
         )}
       </ul>
 
+      {/* 페이지네이션 컴포넌트 */}
       <CustomPagination
         totalItemsCount={filteredData.length}
         itemsCountPerPage={itemsPerPage}
