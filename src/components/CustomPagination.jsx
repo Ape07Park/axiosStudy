@@ -26,7 +26,7 @@ function CustomPagination({ totalItemsCount, itemsCountPerPage, onPageChange }) 
         nextLabel={'›'} // 다음버튼 모양
         breakLabel={'...'} // 중간
         pageCount={pageCount} // 페이지의 총 개수
-        marginPagesDisplayed={0} // paginator의 페이지 마진 범위
+        marginPagesDisplayed={2} // paginator의 페이지 마진 범위
         pageRangeDisplayed={10} // paginator의 페이지 범위
         onPageChange={handlePageClick} // 페이지 변경 함수
         containerClassName={'pagination'}
