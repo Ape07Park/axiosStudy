@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import axiosInstance from "../api/youtubeAxios";
-import styles from '../css/UserList.module.css';
+import axiosInstance from "../../api/youtubeAxios";
+import styles from '@css/UserList.module.css';
 import { useNavigate } from "react-router-dom";
 import ListPagingOn from "./ListModal";
 

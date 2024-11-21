@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from 'react-js-pagination';
-import '../css/Paging.css';
+import '@css/Paging.css';
 
 // 리스트에서 총 아이템 수, 페이지 당 아이템 수. 페이지 변화 기능 함수, 현제 페이지 위치를 넘겨받음
 function CustomPagination({ totalItemsCount, itemsCountPerPage, onPageChange, activePage }) {

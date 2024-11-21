@@ -1,4 +1,4 @@
-import classes from '../css/Header.module.css';
+import classes from '@css/Header.module.css';
 import { MdPostAdd, MdMessage } from 'react-icons/md';
 
 export default function Footer() {

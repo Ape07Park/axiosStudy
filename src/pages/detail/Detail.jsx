@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../css/ListModal.module.css';  // 기존 CSS 모듈 사용
+import styles from '@css/ListModal.module.css';  // 기존 CSS 모듈 사용
 
 function VideoDetailModal({ data, onClose }) {
     if (!data) return null;

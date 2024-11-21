@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import NotFound from './pages/NotFound';
-import List from '@pages/List';
-import Main from '@pages/Main';
-import Detail from '@pages/Detail';
+import NotFound from '@components/NotFound';
+import List from '@pages/list/List';
+import Main from '@pages/main/Main';
+import MainEng from '@pages/main/MainEng';
+import Detail from '@pages/detail/Detail';
 import Test from '@pages/Test';
-import Error, { ErrorFallback } from './components/Error';
+import Error, { ErrorFallback } from '@commons/Error';
 import { ErrorBoundary } from 'react-error-boundary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -36,7 +37,9 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: <NotFound />
-  }
+  },
+  
+  {path: '/eng', element: <MainEng/>}
 ]);
 
 root.render(

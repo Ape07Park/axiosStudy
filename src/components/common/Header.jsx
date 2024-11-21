@@ -1,8 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import classes from '../css/Header.module.css';
+import classes from '@css/Header.module.css';
 import { MdPostAdd, MdMessage } from 'react-icons/md';
+import { TfiWorld } from "react-icons/tfi";
+import { useEffect, useState } from 'react';
+
 
 export default function Header() {
+
+  const [lang, setLang] = useState('KR');
+
   const navigate = useNavigate();
 
   const handleMain = () => {
@@ -17,7 +23,23 @@ export default function Header() {
     navigate('/list');
   };
 
-// TODO 리코일을 사용해 페이지마다 주체, 공간, 경험 중 불 들어오는 거 다르게 하기
+  const handleLang = () => {
+
+    if(lang === 'KR') {
+      setLang('ENG');
+    } else if(lang === 'ENG'){
+      setLang('KR');
+    }
+    console.log(lang);
+    
+  }
+
+  // use이펙트로 어떤 언어인지 보고 영어면 영어 페이지로 보내기
+  useEffect((lang) => {
+    if (lang === 'ENG') {
+      navigate('/eng')
+    } 
+  }, [lang])
 
   return (
     <header className={classes.header}>
@@ -30,6 +52,13 @@ export default function Header() {
         <p onClick={handleList}>리스트</p>
         <p>한국근대교육사 연구센터</p>
       </div>
+      {/* 한글, 영어로 변경 */}
+
+      <button className={classes.button} onClick={handleLang}>
+        <TfiWorld size={18} />
+        언어 변경
+      </button>
+
       <button className={classes.button}>
         <MdPostAdd size={18} />
         해더

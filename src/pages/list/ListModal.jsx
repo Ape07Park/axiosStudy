@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import axiosInstance from "../api/youtubeAxios";
-import styles from '../css/ListModal.module.css';
-import CustomPagination from "../components/CustomPagination";
-import SearchBar from "../components/SearchBar";
+import axiosInstance from "../../api/youtubeAxios";
+import styles from '@css/ListModal.module.css';
+import CustomPagination from "../../components/pagenation/CustomPagination";
+import SearchBar from "../../components/searchbar/SearchBar";
 import { RecoilRoot } from "recoil";
-import VideoDetailModal from '../pages/Detail';
+import VideoDetailModal from '../detail/Detail';
 
 // TODO 조회수. 게시일 별로 정렬, 게시일 날짜 만 나오게 하기 , 조회수에 3자리 마다 , 나오게 하기
 function ListModal({ closeModal }) {

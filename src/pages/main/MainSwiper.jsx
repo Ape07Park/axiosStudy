@@ -1,12 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import axiosInstance from "../api/youtubeAxios";
+import axiosInstance from "../../api/youtubeAxios";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { useEffect, useState } from "react";
-import '../css/MainSwiper.css'; // CSS 파일을 임포트합니다.
+import '@css/MainSwiper.css'; // CSS 파일을 임포트합니다.
 
 export default function MainSwiper() {
   const [videos, setVideos] = useState([]);

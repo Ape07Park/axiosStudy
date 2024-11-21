@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, Outlet } from 'react-router-dom';
 
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from '@commons/Header';
+import Footer from '@commons/Footer';
 
 // TODO app에 헤더, 푸터 컴포넌트 만들어서 넣기
 

@@ -1,5 +1,5 @@
 
-import MainSwiper from "../pages/MainSwiper";
+import MainSwiper from "@pages/main/MainSwiper";
 
 export default function Main() {
 
