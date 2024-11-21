@@ -2,15 +2,18 @@ import { useNavigate } from 'react-router-dom';
 import classes from '@css/Header.module.css';
 import { MdPostAdd, MdMessage } from 'react-icons/md';
 import { TfiWorld } from "react-icons/tfi";
-import { useEffect, useState } from 'react';
+import i18n from "../../lang/i18n"
 import { useTranslation } from 'react-i18next';
+import { useRecoilState } from 'recoil';
+import { LangState } from '../../recoil/LangAtom';
 
 
 export default function Header() {
 
-  const  {t} = useTranslation();
+  const [lang, setLang] = useRecoilState(LangState);
+  const isEnglish = lang === "eng";
 
-  const [lang, setLang] = useState('KR');
+  const  {t} = useTranslation();
 
   const navigate = useNavigate();
 
@@ -28,21 +31,14 @@ export default function Header() {
 
   const handleLang = () => {
 
-    if(lang === 'KR') {
-      setLang('ENG');
-    } else if(lang === 'ENG'){
-      setLang('KR');
-    }
+    const newLang = isEnglish ? "kr" : "eng";
+    setLang(newLang);
+    i18n.changeLanguage(newLang);
+    localStorage.setItem("language", newLang);
     console.log(lang);
     
+    
   }
-
-  // use이펙트로 어떤 언어인지 보고 영어면 영어 페이지로 보내기
-  useEffect((lang) => {
-    if (lang === 'ENG') {
-      navigate('/eng')
-    } 
-  }, [lang])
 
   return (
     <header className={classes.header}>
