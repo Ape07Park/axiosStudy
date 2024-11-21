@@ -12,6 +12,8 @@ function List() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
+    const [error, setError] = useState(null);
+
     // 변수값의 변경으로 인한 리랜더링 방지를 위해 useState가 아닌 useRef로 함
     const observer = useRef();
     const totalCountRef = useRef(); // DOM 참조를 위한 useRef
@@ -36,13 +38,16 @@ function List() {
             } else {
                 setDatas(prevDatas => [...prevDatas, ...newItems]);
             }
-
         } catch (error) {
-            console.error("Error fetching users:", error);
+            setError(error);
         } finally {
             setIsLoading(false);
         }
     };
+
+    if(error) {
+        throw error
+    }
 
     useEffect(() => {
         fetchDatas(page);

@@ -24,14 +24,14 @@ export default function MainSwiper() {
   return (
     <div className="swiper-container">
       <Swiper
-        modules={[Navigation, Pagination]}
+        modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={50}
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
         loop={true}
-        autoplay={{ delay: 10000, disableOnInteraction: false }}  // 10초마다 자동으로 넘기기
+        autoplay={{ delay: 6000, disableOnInteraction: false }} 
       >
         {videos.length > 0 ? (
           videos.map(data => (

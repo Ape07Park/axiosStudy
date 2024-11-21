@@ -1,64 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
 
-// Fallback Component with useNavigate
-function FallbackComponent() {
+// 사용자 정의 에러 페이지 컴포넌트
+const CustomErrorPage = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    navigate('/error');
-  }, [navigate]);
-
-  return null;
-}
-
-// Error Handler function
-const errorHandler = (error, info) => {
-  console.log('Error:', error);
-  console.log('Error Info:', info);
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="p-8 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          문제가 발생했습니다
+        </h2>
+        <p className="text-gray-600 mb-4">
+          죄송합니다. 페이지를 표시하는 동안 오류가 발생했습니다.
+        </p>
+        <div className="flex gap-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+          >
+            이전 페이지
+          </button>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            새로고침
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default function AppErrorBoundary({ children }) {
+// 로딩 컴포넌트
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+  </div>
+);
+
+// 에러 핸들러 함수
+const errorHandler = (error, errorInfo) => {
+  // 프로덕션 환경에서는 에러 로깅 서비스로 전송
+  console.error('Error occurred:', error);
+  console.error('Error Info:', errorInfo);
+};
+
+// 메인 에러 바운더리 컴포넌트
+export const AppErrorBoundary = ({ children }) => {
   return (
     <ErrorBoundary
-      FallbackComponent={FallbackComponent}
+      FallbackComponent={CustomErrorPage}
       onError={errorHandler}
+      onReset={() => window.location.reload()}
     >
-      {children}
+      <Suspense fallback={<LoadingSpinner />}>
+        {children}
+      </Suspense>
     </ErrorBoundary>
   );
-}
-
-// 이벤트 핸들러에서 에러를 처리하기 위한 래퍼 함수
-export const withErrorHandler = (fn) => {
-  return (...args) => {
-    try {
-      return fn(...args);
-    } catch (error) {
-      // window.location.href = '/error';
-      // 또는 아래처럼 구현할 수도 있습니다
-      const event = new ErrorEvent('error', { error });
-      window.dispatchEvent(event);
-    }
-  };
 };
 
-// 버튼 컴포넌트에서의 사용 예시
-const handleModalError = () => {
-  throw new Error('User triggered error');
+// 이벤트 핸들러용 에러 래퍼 함수
+export const withErrorHandler = (fn) => async (...args) => {
+  try {
+    await fn(...args);
+  } catch (error) {
+    // ErrorBoundary로 에러를 전파
+    throw error;
+  }
 };
 
-// 버튼 컴포넌트
-<button 
- 
-  onClick={() => {
-      try {
-          handleModalError();
-      } catch (error) {
-          throw error; // ErrorBoundary가 이 에러를 캐치합니다
-      }
-  }}
->
-  No
-</button>

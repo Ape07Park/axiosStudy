@@ -13,6 +13,7 @@ function ListModal({ closeModal }) {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
+  const [align, setAlign] = useState("date")
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -30,6 +31,7 @@ function ListModal({ closeModal }) {
     try {
       const response = await axiosInstance.get('/db', { params: { page } });
       setDatas(response.data.db[0].items || []);
+
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -67,6 +69,10 @@ function ListModal({ closeModal }) {
     setCategory(category);
   };
 
+  const handleAlign = (e) => {
+    setAlign(e.target.value);
+  }
+
   // 검색 카테고리에 따라 달라짐
   const filteredData = datas.filter((data) => {
     if (category === 'title') {
@@ -83,6 +89,14 @@ function ListModal({ closeModal }) {
       totalCountRef.current.textContent = `Total Results: ${filteredData.length}`;
     }
   }, [filteredData]);
+
+  let alignedData = null;
+
+  if (align === "date") {
+    alignedData = filteredData.sort((a, b) => new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt));
+  } else if (align === "viewCount") {
+    alignedData = setDatas(datas.sort((a, b) => b.statistics.viewCount - a.statistics.viewCount));
+  }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -106,10 +120,9 @@ function ListModal({ closeModal }) {
       </RecoilRoot>
 
       <div>
-        <select id="user-color" >
-          <option value="" selected>정렬 선택</option>
-          <option value="red">조회수 순</option>
-          <option value="blue">게시일 순</option>
+        <select onChange={handleAlign}>
+          <option value="date">게시일 순</option>
+          <option value="viewCount">조회수 순</option>
         </select>
       </div>
 
