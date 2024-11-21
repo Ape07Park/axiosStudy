@@ -21,7 +21,7 @@ function List() {
     const fetchDatas = async (pageNum) => {
         try {
             setIsLoading(true);
-            const response = await axiosInstance.get('/db', {
+            const response = await axiosInstance.get('/ds', {
                 params: { page: pageNum }
             });
 
