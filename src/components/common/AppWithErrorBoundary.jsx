@@ -64,6 +64,7 @@ export const AppErrorBoundary = ({ children }) => {
 };
 
 // 이벤트 핸들러용 에러 래퍼 함수
+//  비동기 함수에 에러 핸들링을 추가하는 래퍼 함
 export const withErrorHandler = (fn) => async (...args) => {
   try {
     await fn(...args);

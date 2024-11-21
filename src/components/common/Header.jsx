@@ -34,8 +34,11 @@ export default function Header() {
     const newLang = isEnglish ? "kr" : "eng";
     setLang(newLang);
     i18n.changeLanguage(newLang);
+    console.log("newLang: " + newLang);
+    
     localStorage.setItem("language", newLang);
-    console.log(lang);
+
+    console.log("leng: " +lang);
     
     
   }

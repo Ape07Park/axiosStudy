@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axiosInstance from "../../api/youtubeAxios";
 import styles from '@css/UserList.module.css';
-import { useNavigate } from "react-router-dom";
 import ListPagingOn from "./ListModal";
 
 function List() {
@@ -10,7 +9,6 @@ function List() {
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
-    const navigate = useNavigate();
 
     const [error, setError] = useState(null);
 
@@ -21,7 +19,7 @@ function List() {
     const fetchDatas = async (pageNum) => {
         try {
             setIsLoading(true);
-            const response = await axiosInstance.get('/ds', {
+            const response = await axiosInstance.get('/db', {
                 params: { page: pageNum }
             });
 
@@ -81,6 +79,7 @@ function List() {
         setShowModal(false);
     };
 
+   
     return (
         <div className={styles.container}>
             <h2 className={styles.title}>Video List</h2>
@@ -88,7 +87,7 @@ function List() {
             <ul className={styles.list}>
                 {datas.map((data, index) => (
                     <li
-                        key={data.id}
+                        key={data.id + index + ""}
                         onClick={() => handleUserClick(data.id)}
                         className={styles.listItem}
                         ref={index === datas.length - 1 ? lastItemRef : null}

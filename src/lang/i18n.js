@@ -17,6 +17,7 @@ const resources = {
     resources,
     lng: "kr",
     fallbackLng: "eng", // 번역 파일에서 찾을 수 없는 경우 기본 언어
+    debug: true,
     interpolation: {
       escapeValue: false,
     },
