@@ -1,13 +1,9 @@
-
-import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, Outlet } from 'react-router-dom';
 
 import Header from '@commons/Header';
 import Footer from '@commons/Footer';
 
-// TODO app에 헤더, 푸터 컴포넌트 만들어서 넣기
-
-export default function App() { // App 컴포넌트는 사용자 선택에 따라 UserDetail에서 선택된 사용자의 정보를 보여줍니다.
+export default function App() {
 
   return (
     <>

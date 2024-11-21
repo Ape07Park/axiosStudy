@@ -5,6 +5,7 @@ import CustomPagination from "../../components/pagenation/CustomPagination";
 import SearchBar from "../../components/searchbar/SearchBar";
 import { RecoilRoot } from "recoil";
 import VideoDetailModal from '../detail/Detail';
+import { useNavigate } from "react-router-dom";
 
 // TODO 조회수. 게시일 별로 정렬, 게시일 날짜 만 나오게 하기 , 조회수에 3자리 마다 , 나오게 하기
 function ListModal({ closeModal }) {
@@ -22,6 +23,8 @@ function ListModal({ closeModal }) {
 
   const itemsPerPage = 3;
   const totalCountRef = useRef(); // DOM 참조를 위한 useRef
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDatas(currentPage);
@@ -49,8 +52,8 @@ function ListModal({ closeModal }) {
   };
 
   // 에러 일으키기
-  const handleModalError = () => {
-    throw new Error('User triggered error');
+  const handleNo = () => {
+    navigate('/');
   };
 
   const handleDetailModalClose = () => {
@@ -125,6 +128,12 @@ function ListModal({ closeModal }) {
           <option value="viewCount">조회수 순</option>
         </select>
       </div>
+      
+      {/* TODO 영상제목의 키워드 추출해서 뿌리기 */}
+      <div>
+        <p>키워드들</p>
+        
+      </div>
 
       <ul className={styles.list}>
         {currentItems.length > 0 ? (
@@ -161,7 +170,7 @@ function ListModal({ closeModal }) {
           <div className={styles.modalContent}>
             <p>페이지를 이동하겠습니까?</p>
             <button className={styles.okButton} onClick={handleModalConfirm}>OK</button>
-            <button className={styles.cancelButton} onClick={handleModalError}>No</button>
+            <button className={styles.cancelButton} onClick={handleNo}>No</button>
           </div>
         </div>
       )}

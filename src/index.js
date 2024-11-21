@@ -11,6 +11,8 @@ import Detail from '@pages/detail/Detail';
 import Test from '@pages/Test';
 import Error, { ErrorFallback } from '@commons/Error';
 import { ErrorBoundary } from 'react-error-boundary';
+import { RecoilRoot } from 'recoil';
+import '../src/lang/i18n'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -38,12 +40,15 @@ const router = createBrowserRouter([
     path: '*',
     element: <NotFound />
   },
-  
-  {path: '/eng', element: <MainEng/>}
+
+  { path: '/eng', element: <MainEng /> }
 ]);
 
 root.render(
+
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RecoilRoot>
+      <RouterProvider router={router} />
+    </RecoilRoot>
   </React.StrictMode>
 );

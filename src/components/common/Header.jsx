@@ -3,9 +3,12 @@ import classes from '@css/Header.module.css';
 import { MdPostAdd, MdMessage } from 'react-icons/md';
 import { TfiWorld } from "react-icons/tfi";
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Header() {
+
+  const  {t} = useTranslation();
 
   const [lang, setLang] = useState('KR');
 
@@ -43,23 +46,36 @@ export default function Header() {
 
   return (
     <header className={classes.header}>
-      <h1 className={classes.logo} onClick={handleMain}>
+      <h1 className={classes.logo} onClick={handleMain}
+        title={t(`header.title`)}
+      >
         <MdMessage />
         한국근대교육의 주체, 공간, 경험
       </h1>
       <div className={classes.navLinks}>
-        <p onClick={goKyoWonDea}>한국교원대 홈피</p>
-        <p onClick={handleList}>리스트</p>
-        <p>한국근대교육사 연구센터</p>
+        <p onClick={goKyoWonDea}
+        homepage={t(`header.homepage`)}
+        
+        >한국교원대 홈피</p>
+        <p onClick={handleList}
+        list={t(`header.list`)}
+        >리스트</p>
+        <p
+        institute={t(`header.institute`)}
+        >한국근대교육사 연구센터</p>
       </div>
       {/* 한글, 영어로 변경 */}
 
-      <button className={classes.button} onClick={handleLang}>
+      <button className={classes.button} onClick={handleLang}
+      langChange={t(`header.langChange`)}
+      >
         <TfiWorld size={18} />
         언어 변경
       </button>
 
-      <button className={classes.button}>
+      <button className={classes.button}
+      header={t(`header.header`)}
+      >
         <MdPostAdd size={18} />
         해더
       </button>

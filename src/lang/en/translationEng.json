@@ -1,0 +1,16 @@
+{
+  "header": {
+    "title": "title",
+    "homepage": " homepage",
+    "list": "list",
+    "institute": "institute",
+    "langChange": "langChange",
+    "header": "header"
+   
+  },
+  "footer": {
+    "maintitle": "big footer",
+    "subTitle": "samll footer!"
+    
+  }
+}
