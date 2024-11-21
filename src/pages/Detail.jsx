@@ -13,8 +13,9 @@ function VideoDetailModal({ data, onClose }) {
                     <li>아이디: {data.id}</li>
                     <li>영상 제목: {data.snippet.title}</li>
                     <li>채널 이름: {data.snippet.channelTitle}</li>
-                    <li>조회수: {data.statistics.viewCount}</li>
-                    <li>게시일: {data.snippet.publishedAt}</li>
+                    <li>조회수: {data.statistics.viewCount.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</li>
+                    <li>게시일: {data.snippet.publishedAt.slice(0,10)}</li>
+                    <li>영상 설명: {data.snippet.description}</li>
                 </ul>
             </div>
         </div>
