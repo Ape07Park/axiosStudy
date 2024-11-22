@@ -1,19 +1,22 @@
-/* UserList.module.css */
+/* 컨테이너 스타일 */
 .container {
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;  /* 컨테이너의 최대 너비 설정 */
+    margin: 0 auto;  /* 화면 중앙에 배치 */
 }
 
+/* 제목 스타일 */
 .title {
     font-size: 24px;
     margin-bottom: 20px;
     color: #343a40;
 }
 
+/* 닫기 버튼 스타일 */
 .closeButton {
-   
     margin-bottom: 20px;
     background-color: #dc3545;
     color: white;
@@ -28,12 +31,47 @@
     background-color: #c82333;
 }
 
+/* 키워드 영역 스타일 */
+div > p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+.keywordContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto; /* 항목이 넘치면 스크롤바가 생기도록 설정 */
+}
+
+/* 키워드 항목 스타일 */
+.keywordItem {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.keywordItem:hover {
+    background-color: #0056b3;
+}
+
+/* 리스트 스타일 */
 .list {
     list-style: none;
     padding: 0;
     margin: 0;
+    max-height: 400px;  /* 리스트의 최대 높이를 설정 */
+    overflow-y: auto;  /* 항목이 넘치면 스크롤바가 생기도록 설정 */
 }
 
+/* 리스트 항목 스타일 */
 .listItem {
     padding: 15px;
     margin-bottom: 10px;
@@ -48,6 +86,7 @@
     background-color: #e9ecef;
 }
 
+/* 모달 오버레이 스타일 */
 .modal {
     position: fixed;
     top: 0;
@@ -60,6 +99,7 @@
     align-items: center;
 }
 
+/* 모달 콘텐츠 스타일 */
 .modalContent {
     background: white;
     padding: 20px;
@@ -68,6 +108,7 @@
     text-align: center;
 }
 
+/* 모달 버튼 스타일 */
 .modalContent button {
     margin: 5px;
     padding: 10px 20px;
@@ -88,5 +129,4 @@
 .cancelButton {
     background-color: #6c757d;
     color: white;
-
 }

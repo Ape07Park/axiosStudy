@@ -145,14 +145,14 @@ function ListModal({ closeModal }) {
       </div>
       
       {/* TODO 영상제목의 키워드 추출해서 뿌리기 */}
-      <div>
+      <div className={styles.keywordContainer}>
         <p>키워드들</p>
         {keyword.map((keyword, i) => {
-          <React.Component>
-
+          return (
+            <div className={styles.keywordItem} key={i}>
             {keyword.title}
-          </React.Component>
-          
+          </div>
+          );
         })}
       </div>
 
