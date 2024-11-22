@@ -1,0 +1,13 @@
+{
+  "test": {
+    "message": "This is a test message"
+  },
+  "header": {
+    "title": "Title",
+    "homepage": "Homepage",
+    "list": "List",
+    "institute": "Institute",
+    "langChange": "Change Language",
+    "header": "Header"
+  }
+}

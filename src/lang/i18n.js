@@ -1,26 +1,34 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import en from './en/translation.json';
+import ko from './ko/translation.json';
 
-import translationENG from "./en/translationEng.json";
-import translationKO from "./ko/translationKr.json";
+// 저장된 언어 설정 가져오기
+const savedLanguage = localStorage.getItem('language');
 
-const resources = {
-  eng: {
-      translation: translationENG,
+i18n
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: {
+        translation: en
+      },
+      ko: {
+        translation: ko
+      }
     },
-    kr: {
-      translation: translationKO,
-    },
-  };
-  
-  i18n.use(initReactI18next).init({
-    resources,
-    lng: "kr",
-    fallbackLng: "eng", // 번역 파일에서 찾을 수 없는 경우 기본 언어
-    debug: true,
+    lng: savedLanguage || 'ko', // 저장된 언어가 있으면 사용, 없으면 ko
+    fallbackLng: 'en',
+    supportedLngs: ['en', 'ko'], // 지원하는 언어 명시
     interpolation: {
-      escapeValue: false,
+      escapeValue: false
     },
+    debug: true,
   });
-  
-  export default i18n;
+
+// 언어 변경 이벤트 리스너 추가
+i18n.on('languageChanged', (lng) => {
+  console.log('Language changed event:', lng);
+});
+
+export default i18n;

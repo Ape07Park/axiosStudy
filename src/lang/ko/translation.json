@@ -1,0 +1,13 @@
+{
+  "test": {
+    "message": "테스트 메시지입니다"
+  },
+  "header": {
+    "title": "제목",
+    "homepage": "홈페이지",
+    "list": "리스트",
+    "institute": "연구소",
+    "langChange": "언어 변경",
+    "header": "헤더"
+  }
+}

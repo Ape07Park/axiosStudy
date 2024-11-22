@@ -2,18 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import classes from '@css/Header.module.css';
 import { MdPostAdd, MdMessage } from 'react-icons/md';
 import { TfiWorld } from "react-icons/tfi";
-import i18n from "../../lang/i18n";
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { LangState } from '../../recoil/LangAtom';
 
 export default function Header() {
-
   const [lang, setLang] = useRecoilState(LangState);
-  const isEnglish = lang === "eng";
-
-  const { t } = useTranslation();
-
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const handleMain = () => {
@@ -29,39 +24,37 @@ export default function Header() {
   };
 
   const handleLang = () => {
-    const newLang = isEnglish ? "kr" : "eng";
+    const newLang = (lang === "en") ? "ko" : "en";
     setLang(newLang);
     i18n.changeLanguage(newLang);
-    console.log("newLang: " + newLang);
     localStorage.setItem("language", newLang);
-    console.log("lang: " + lang);
+    console.log(`Language changed to: ${newLang}`);
   };
 
   return (
     <header className={classes.header}>
-      <h1 className={classes.logo} onClick={handleMain} title={t('header.title')}>
+      <h1 className={classes.logo} onClick={handleMain} >
         <MdMessage />
-        한국근대교육의 주체, 공간, 경험
+        {t('header.title')} {/* 변경된 부분 */}
       </h1>
       <div className={classes.navLinks}>
-        <p onClick={goKyoWonDea} data-homepage={t('header.homepage')}>
-          한국교원대 홈피
+        <p onClick={goKyoWonDea} >
+          {t('header.homepage')} {/* 변경된 부분 */}
         </p>
-        <p onClick={handleList} data-list={t('header.list')}>
-          리스트
+        <p onClick={handleList} >
+          {t('header.list')} {/* 변경된 부분 */}
         </p>
         <p data-institute={t('header.institute')}>
-          한국근대교육사 연구센터
+          {t('header.institute')} {/* 변경된 부분 */}
         </p>
       </div>
-      {/* 한글, 영어로 변경 */}
-      <button className={classes.button} onClick={handleLang} data-langchange={t('header.langChange')}>
+      <button className={classes.button} onClick={handleLang} >
         <TfiWorld size={18} />
-        언어 변경
+        {t('header.langChange')} {/* 변경된 부분 */}
       </button>
-      <button className={classes.button} data-header={t('header.header')}>
+      <button className={classes.button}>
         <MdPostAdd size={18} />
-        해더
+        {t('header.header')} {/* 변경된 부분 */}
       </button>
     </header>
   );
