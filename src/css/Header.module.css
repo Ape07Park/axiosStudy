@@ -1,48 +1,57 @@
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #2c3e50;
+  background-color: #2c3e50;  /* 어두운 배경 */
   padding: 15px 30px;
   color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif; /* 더 읽기 쉬운 폰트 */
 }
 
 .logo {
   display: flex;
   align-items: center;
-  font-size: 1.8em;
+  font-size: 2em;  /* 로고 글자 크기를 크게 */
+  font-weight: bold;  /* 로고에 볼드 적용 */
   cursor: pointer;
+  color: #ecf0f1;  /* 연한 색상으로 로고 글자 설정 */
 }
 
 .logo svg {
   margin-right: 12px;
 }
 
+/* 네비게이션 링크 */
 .navLinks {
   display: flex;
-  gap: 25px;
+  gap: 30px;  /* 간격을 조금 더 넓게 */
 }
 
 .navLinks p {
   margin: 0;
-  font-size: 1em;
+  font-size: 1.2em;  /* 글자 크기 조금 더 크게 */
+  font-weight: 500;  /* 글자 굵게 설정 */
   cursor: pointer;
   transition: color 0.3s, transform 0.3s;
+  color: #bdc3c7;  /* 기본 글자 색상 연한 회색 */
 }
 
 .navLinks p:hover {
-  color: #e74c3c;
+  color: #e74c3c;  /* 마우스 올렸을 때 빨간색 */
   transform: scale(1.05);
 }
 
+/* 버튼 스타일 */
 .button {
-  background-color: #e74c3c;
+  background-color: #e74c3c;  /* 빨간색 배경 */
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
+  padding: 12px 25px;  /* 버튼 크기 확대 */
   color: white;
-  font-size: 1em;
+  font-size: 1.1em;  /* 버튼 글자 크기 키움 */
+  font-weight: bold;  /* 버튼 글자 굵게 */
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
   display: flex;
@@ -50,19 +59,21 @@
 }
 
 .button svg {
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
 .button:hover {
-  background-color: #c0392b;
+  background-color: #c0392b;  /* 버튼에 마우스 올렸을 때 어두운 빨간색 */
   transform: scale(1.05);
 }
 
+/* 검색 바 */
 .searchContainer {
   display: flex;
   align-items: center;
+  font-size: 1em;  /* 검색창의 글자 크기 */
 }
 
 .dropdown {
-  margin-right: 10px; /* 드롭다운과 검색 인풋 사이의 간격을 조정합니다 */
+  margin-right: 12px; /* 드롭다운과 검색 인풋 사이의 간격을 좀 더 넓혀줌 */
 }
