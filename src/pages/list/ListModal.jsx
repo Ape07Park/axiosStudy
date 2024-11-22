@@ -6,6 +6,7 @@ import SearchBar from "../../components/searchbar/SearchBar";
 import { RecoilRoot } from "recoil";
 import VideoDetailModal from '../detail/Detail';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // TODO 조회수. 게시일 별로 정렬, 게시일 날짜 만 나오게 하기 , 조회수에 3자리 마다 , 나오게 하기
 function ListModal({ closeModal }) {
@@ -20,7 +21,7 @@ function ListModal({ closeModal }) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
-
+  const [keyword, setKeyword] = useState([]);
   const itemsPerPage = 3;
   const totalCountRef = useRef(); // DOM 참조를 위한 useRef
 
@@ -32,8 +33,9 @@ function ListModal({ closeModal }) {
 
   const fetchDatas = async (page) => {
     try {
+      await fetchKeyword();
       const response = await axiosInstance.get('/db', { params: { page } });
-      setDatas(response.data.db[0].items || []);
+     setDatas(response.data.db[0].items || []);
 
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -105,6 +107,19 @@ function ListModal({ closeModal }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
+  // 서버에 통신해서 데이터 가져오기
+  const fetchKeyword = async () => {
+    try {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/users/1/albums');
+        setKeyword(response.data); // response.data를 배열로 저장
+      console.log(keyword);
+      
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+
   return (
     <div className={styles.container}>
       <button className={styles.closeButton} onClick={closeModal}>닫기</button>
@@ -132,7 +147,13 @@ function ListModal({ closeModal }) {
       {/* TODO 영상제목의 키워드 추출해서 뿌리기 */}
       <div>
         <p>키워드들</p>
-        
+        {keyword.map((keyword, i) => {
+          <React.Component>
+
+            {keyword.title}
+          </React.Component>
+          
+        })}
       </div>
 
       <ul className={styles.list}>

@@ -49,7 +49,7 @@ function List() {
 
     useEffect(() => {
         fetchDatas(page);
-    }, [page]);
+    }, []);
 
     // node는 관찰대상
     const lastItemRef = useCallback((node) => {

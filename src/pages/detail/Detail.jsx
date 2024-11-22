@@ -13,8 +13,8 @@ function VideoDetailModal({ data, onClose }) {
                     <iframe
                         id='player'
                         type='text/html'
-                        width='25%'
-                        height='50%'
+                        width='23%'
+                        height='30%'
                         src={`https://www.youtube.com/embed/${data.id}`}
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                         allowFullScreen

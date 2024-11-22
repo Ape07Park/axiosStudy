@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Error Page Component
 function Error() {
   const goMain = () => {
     window.location.href = '/';
@@ -16,7 +15,6 @@ function Error() {
   );
 }
 
-// ErrorBoundary component
 export function ErrorFallback({ error }) {
   const navigate = useNavigate();
   
