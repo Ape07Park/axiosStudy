@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from '@components/NotFound';
-import List from '@pages/list/List';
+// import List from '@pages/list/List';
 import Main from '@pages/main/Main';
 import MainEng from '@pages/main/MainEng';
-import Detail from '@pages/detail/Detail';
+// import Detail from '@pages/detail/Detail';
 import Test from '@pages/Test';
 import Error, { ErrorFallback } from '@commons/Error';
 import { ErrorBoundary } from 'react-error-boundary';
 import { RecoilRoot } from 'recoil';
-import '../src/lang/i18n'
+
+const List = React.lazy(() => import('@pages/list/List'))
+const Detail = React.lazy(() => import('@pages/detail/Detail'))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -22,7 +24,9 @@ const router = createBrowserRouter([
     path: '/',
     element: (
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <App />
+        <Suspense fallback={<div>Loading...</div>}>
+          <App />
+        </Suspense>
       </ErrorBoundary>
     ),
     children: [

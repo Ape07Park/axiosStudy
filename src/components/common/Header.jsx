@@ -34,26 +34,26 @@ export default function Header() {
     <header className={classes.header}>
       <h1 className={classes.logo} onClick={handleMain} >
         <MdMessage />
-        {t('header.title')} {/* 변경된 부분 */}
+        {t('header.title')} {/* 태그와 /태그 사이에 넣어야함 */}
       </h1>
       <div className={classes.navLinks}>
         <p onClick={goKyoWonDea} >
-          {t('header.homepage')} {/* 변경된 부분 */}
+          {t('header.homepage')} 
         </p>
         <p onClick={handleList} >
-          {t('header.list')} {/* 변경된 부분 */}
+          {t('header.list')} 
         </p>
         <p data-institute={t('header.institute')}>
-          {t('header.institute')} {/* 변경된 부분 */}
+          {t('header.institute')} 
         </p>
       </div>
       <button className={classes.button} onClick={handleLang} >
         <TfiWorld size={18} />
-        {t('header.langChange')} {/* 변경된 부분 */}
+        {t('header.langChange')} 
       </button>
       <button className={classes.button}>
         <MdPostAdd size={18} />
-        {t('header.header')} {/* 변경된 부분 */}
+        {t('header.header')} 
       </button>
     </header>
   );
