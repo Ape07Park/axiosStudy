@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * 
+ * @returns 에러 페이지 방출
+ */
 function Error() {
   const goMain = () => {
     window.location.href = '/';

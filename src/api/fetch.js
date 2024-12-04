@@ -56,3 +56,7 @@ function customFetch(endpoint, options = {}) {
 }
 
 export default customFetch; // customFetch 함수를 기본 내보내기로 설정
+
+
+
+

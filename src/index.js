@@ -23,6 +23,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
+      // 에러 바운더리로 app을 감싸 전역 에러를 처리 할 수 있게 하였다.
+      // 에러가 발생하면 FallbackComponent인 Error.jsx 페이지로 이동한다
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense fallback={<div>Loading...</div>}>
           <App />

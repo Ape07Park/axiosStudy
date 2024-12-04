@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import axiosInstance from "../../api/youtubeAxios";
 import styles from '@css/ListModal.module.css';
 import CustomPagination from "../../components/pagenation/CustomPagination";
@@ -107,18 +107,16 @@ function ListModal({ closeModal }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  // 서버에 통신해서 데이터 가져오기
+   // TODO useMemo로 키워드 캐싱하기
   const fetchKeyword = async () => {
     try {
       const response = await axios.get('https://jsonplaceholder.typicode.com/users/1/albums');
         setKeyword(response.data); // response.data를 배열로 저장
-      console.log(keyword);
       
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
-
 
   return (
     <div className={styles.container}>
@@ -144,7 +142,6 @@ function ListModal({ closeModal }) {
         </select>
       </div>
       
-      {/* TODO 영상제목의 키워드 추출해서 뿌리기 */}
       <div className={styles.keywordContainer}>
         <p>키워드들</p>
         {keyword.map((keyword, i) => {
